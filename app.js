@@ -15,7 +15,7 @@ const getPostData = (req)=>{
         req.on('data', chunk=>{
             postData += chunk.toString()
         })
-        req.on('end', err=>{
+        req.on('err', err=>{
             reject(err)
         })
         req.on('end', ()=>{
@@ -24,6 +24,7 @@ const getPostData = (req)=>{
                 return
             }
             //这里让postData变成对象类型
+            // let obj = JSON.parse(postData)
             resolve(JSON.parse(postData))
         })
     }))
@@ -56,7 +57,9 @@ module.exports = (req,res)=>{
         //     return
         // }
             return
-    })
+    }).catch(err=>{
+            console.log(err)
+        })
 
     // res.statusCode = 404
     // res.setHeader('Content-type','text/plain')
